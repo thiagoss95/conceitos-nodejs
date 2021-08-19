@@ -35,6 +35,12 @@ app.put("/repositories/:id", (request, response) => {
     return response.status(400).json({error: "Repository not found."});
   }
 
+  //Remove as propriedades que não foram informadas para alteração
+  for(let propName in repository){
+    if(repository[propName] === undefined)
+      delete repository[propName];
+  }
+
   //Mescla as propriedades do repositório atual com as alterações do update
   const currentRepository = repositories[repositoryIndex];
   const newRepository = {...currentRepository, ...repository};
